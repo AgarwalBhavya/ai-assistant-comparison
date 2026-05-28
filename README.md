@@ -73,7 +73,7 @@ graph TD
     OSS --> Out[Output Synthesis & Tool Parse]
     Front --> Out
     
-    Out --> |[TOOL_USE]| Tool[Tool Executor: Math, Search, Stats]
+    Out --> |"[TOOL_USE]"| Tool[Tool Executor: Math, Search, Stats]
     Tool --> |Append Results| Base
     
     Out --> OG[Output Guardrails]
