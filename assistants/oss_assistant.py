@@ -161,14 +161,20 @@ class OSSAssistant(BaseAssistant):
         if "romeo and juliet" in query_lower:
             return f"The tragedy *Romeo and Juliet* was written by the legendary English playwright William Shakespeare in the late 16th century.{notice}"
 
-        if "capital of france" in query_lower:
-            return f"The capital of France is Paris. It is a major European city and a global center for art, fashion, gastronomy, and culture.{notice}"
-            
-        if "who is the prime minister of india" in query_lower:
-            # Let's see if we hallucinate or use the web search
+        if "capital" in query_lower:
+            if "india" in query_lower:
+                return f"The capital of India is **New Delhi**. It serves as the seat of the executive, legislative, and judiciary branches of the Government of India.{notice}"
+            elif "france" in query_lower:
+                return f"The capital of France is Paris. It is a major European city and a global center for art, fashion, gastronomy, and culture.{notice}"
+            elif "japan" in query_lower:
+                return f"The capital of Japan is Tokyo. It is the world's most populous metropolitan area and a leading global financial center.{notice}"
+            elif "brazil" in query_lower:
+                return f"The capital of Brazil is Brasília. It is famous for its unique planned futuristic architecture designed by Oscar Niemeyer.{notice}"
+
+        if "prime minister of india" in query_lower or "pm of india" in query_lower or "who is the prime minister of india" in query_lower:
             return f"The current Prime Minister of India is Narendra Modi. He has been in office since May 2014.{notice}"
 
-        if "tell me about gemini" in query_lower:
+        if "gemini" in query_lower or "tell me about gemini" in query_lower:
             return f"Gemini is Google's highly advanced family of multimodal AI models, capable of processing and understanding text, code, images, audio, and video natively. It comes in various sizes like Ultra, Pro, and Flash.{notice}"
 
         if "hello" in query_lower or "hi" in query_lower or "hey" in query_lower:

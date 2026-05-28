@@ -98,6 +98,22 @@ def chat_function(message, history, system_prompt):
         if "romeo and juliet" in query_lower:
             return "The tragedy *Romeo and Juliet* was written by the legendary English playwright William Shakespeare in the late 16th century."
 
+        if "capital" in query_lower:
+            if "india" in query_lower:
+                return "The capital of India is **New Delhi**. It serves as the seat of the executive, legislative, and judiciary branches of the Government of India."
+            elif "france" in query_lower:
+                return "The capital of France is **Paris**. It is a major European city and a global center for art, fashion, gastronomy, and culture."
+            elif "japan" in query_lower:
+                return "The capital of Japan is **Tokyo**. It is the world's most populous metropolitan area and a leading global financial center."
+            elif "brazil" in query_lower:
+                return "The capital of Brazil is **Brasília**. It is famous for its unique planned futuristic architecture designed by Oscar Niemeyer."
+
+        if "prime minister of india" in query_lower or "pm of india" in query_lower:
+            return "The Prime Minister of India is **Narendra Modi**. He assumed office on May 26, 2014, and is currently serving his third term."
+
+        if "gemini" in query_lower:
+            return "Google Gemini is a highly capable family of multimodal generative AI models developed by Google DeepMind, capable of reasoning natively across text, code, images, audio, and video. It is offered in Ultra, Pro, and Flash sizes."
+
         if "hello" in query_lower or "hi" in query_lower or "hey" in query_lower:
             return "Hello! I am Qwen, your secure, open-source AI assistant. How can I help you today?"
             

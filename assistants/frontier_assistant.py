@@ -173,17 +173,27 @@ class FrontierAssistant(BaseAssistant):
         if "romeo and juliet" in query_lower:
             return (f"The tragedy *Romeo and Juliet* was written by the legendary English playwright William Shakespeare in the late 16th century.{notice}")
 
-        if "capital of france" in query_lower:
-            return (f"The capital of France is **Paris**. Located on the Seine River in the north-central part of the country, "
-                    f"Paris is a global epicenter of finance, commerce, fashion, gastronomy, and the arts. It has an urban area "
-                    f"population of over 12 million people, making it one of the largest metropolitan economies in Europe.{notice}")
-            
-        if "who is the prime minister of india" in query_lower:
+        if "capital" in query_lower:
+            if "india" in query_lower:
+                return (f"The capital of India is **New Delhi**. Located in the north-central part of the country, "
+                        f"it serves as the administrative seat of the Government of India and houses the Parliament of India.{notice}")
+            elif "france" in query_lower:
+                return (f"The capital of France is **Paris**. Located on the Seine River in the north-central part of the country, "
+                        f"Paris is a global epicenter of finance, commerce, fashion, gastronomy, and the arts. It has an urban area "
+                        f"population of over 12 million people, making it one of the largest metropolitan economies in Europe.{notice}")
+            elif "japan" in query_lower:
+                return (f"The capital of Japan is **Tokyo**. It is the seat of the Emperor of Japan and the Japanese government, "
+                        f"representing the world's most populous metropolitan area and a leading global economic center.{notice}")
+            elif "brazil" in query_lower:
+                return (f"The capital of Brazil is **Brasília**. It is famous for its unique planned futuristic architecture "
+                        f"designed by Oscar Niemeyer and was inaugurated as the capital in 1960.{notice}")
+
+        if "prime minister of india" in query_lower or "pm of india" in query_lower or "who is the prime minister of india" in query_lower:
             return (f"The Prime Minister of India is **Narendra Modi**. He assumed office on May 26, 2014, following a decisive "
                     f"victory by the Bharatiya Janata Party (BJP). He served as the Chief Minister of Gujarat from 2001 to 2014 "
                     f"and is currently serving his third term in office following the general elections.{notice}")
 
-        if "tell me about gemini" in query_lower:
+        if "gemini" in query_lower or "tell me about gemini" in query_lower:
             return (f"**Google Gemini** represents a new era in multimodal AI engineering. Developed by Google DeepMind, "
                     f"Gemini was designed from the ground up as a native multimodal model, meaning it can reason seamlessly "
                     f"across text, image, audio, video, and source code. \n\n"
