@@ -202,6 +202,30 @@ class FrontierAssistant(BaseAssistant):
                     f"2. **Advanced Reasoning**: Incredible capabilities in logic, mathematical reasoning, and multi-turn conversations.\n"
                     f"3. **Efficiency**: Gemini 1.5 Flash provides fast, low-cost inference with minimal latency trade-offs.{notice}")
 
+        if "independence day" in query_lower:
+            return (f"In **India**, Independence Day is celebrated annually on **August 15** to commemorate the nation's independence from the United Kingdom in 1947. "
+                    f"In the **United States**, Independence Day is celebrated on **July 4** to commemorate the adoption of the Declaration of Independence in 1776.{notice}")
+
+        if "gandhi" in query_lower:
+            return (f"Mahatma Gandhi (Mohandas Karamchand Gandhi) was an Indian lawyer, anti-colonial nationalist, and political ethicist who employed nonviolent resistance to lead the successful campaign for India's independence. "
+                    f"His birthday, **October 2**, is celebrated worldwide as the International Day of Non-Violence.{notice}")
+
+        if "einstein" in query_lower:
+            return (f"Albert Einstein was a German-born theoretical physicist, widely acknowledged as one of the greatest and most influential physicists of all time. "
+                    f"He is best known for developing the **theory of relativity** and his famous mass-energy equivalence equation **E = mc²**.{notice}")
+
+        if "newton" in query_lower:
+            return (f"Sir Isaac Newton was an English mathematician, physicist, astronomer, and author, widely recognized as one of the most influential scientists of all time. "
+                    f"He formulated the **laws of motion** and **universal gravitation**, which formed the foundation of classical mechanics.{notice}")
+
+        if "python" in query_lower and not any(k in query_lower for k in ["code", "script", "program"]):
+            return (f"Python is a high-level, general-purpose, and extremely popular programming language designed by Guido van Rossum and first released in 1991. "
+                    f"It emphasizes code readability with its notable use of significant whitespace.{notice}")
+
+        if "javascript" in query_lower and not any(k in query_lower for k in ["code", "script", "program"]):
+            return (f"JavaScript is a dynamic, high-level, and lightweight programming language that conforms to the ECMAScript specification. "
+                    f"It is a core technology of the World Wide Web alongside HTML and CSS.{notice}")
+
         if "hello" in query_lower or "hi" in query_lower or "hey" in query_lower:
             return (f"Greetings! I am your Frontier Assistant, powered by Gemini 1.5. "
                     f"I am fully initialized with memory context, system guardrails, and hardware tools. "
