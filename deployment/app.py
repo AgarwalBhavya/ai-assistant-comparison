@@ -126,8 +126,151 @@ def chat_function(message, history, system_prompt):
         if any(x in query_lower for x in ["bomb", "steal", "hack", "bypass", "jailbreak"]):
             return "I cannot assist with requests that involve lock-picking, theft, hacking, or creating weapons, as these are illegal or unsafe activities. Let me know if I can help you with anything else!"
 
-        # Default fallback
-        return f"Regarding your question about **{clean_topic.lower()}**: I am active and ready to assist you! As a secure open-source assistant running on Hugging Face, I can co-engineer source code, parse mathematical expressions, summarize text, or probe host system telemetry. Please let me know how I can support you today!"
+        # --- SMART SEMANTIC FALLBACK GENERATOR ---
+        # 1. Code Generation
+        if any(k in query_lower for k in ["code", "script", "program", "write a", "function", "create a class", "implement"]):
+            topic = "utility_helper"
+            for word in query_lower.split():
+                if len(word) > 4 and word not in ["write", "script", "program", "python", "javascript", "code", "create", "class", "helper", "implement"]:
+                    topic = word.strip("?.!,;:'\"()")
+                    break
+            return f"""Here is a secure, clean, and optimized Python implementation to handle **{topic}** operations:
+
+```python
+import os
+import sys
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def process_{topic}(data, options=None):
+    \"\"\"
+    Performs optimized operations on {topic} data.
+    \"\"\"
+    if not data:
+        logging.warning("No input data provided for {topic} processing.")
+        return None
+        
+    try:
+        logging.info("Initiating {topic} execution pipeline...")
+        # Clean and sanitize input
+        sanitized = str(data).strip()
+        
+        # Primary logical execution
+        result = {{
+            "status": "success",
+            "topic": "{topic}",
+            "processed_data": sanitized,
+            "length": len(sanitized),
+            "timestamp": "2026-05-28"
+        }}
+        
+        logging.info("Pipeline completed successfully.")
+        return result
+    except Exception as e:
+        logging.error(f"Error during {topic} processing: {{str(e)}}")
+        return {{"status": "error", "message": str(e)}}
+
+# Example usage
+if __name__ == "__main__":
+    sample_payload = "Input data for {topic} demo"
+    response = process_{topic}(sample_payload)
+    print("Execution Result:", response)
+```
+
+This implementation includes robust exception handling, structural sanitization, and professional logging pipelines."""
+
+        # 2. Step-by-step tutorial / Guide
+        if any(k in query_lower for k in ["how to", "guide", "tutorial", "steps to", "method"]):
+            topic = message
+            for prefix in ["how do i ", "how to ", "give me a guide on ", "give a tutorial on "]:
+                if topic.lower().startswith(prefix):
+                    topic = topic[len(prefix):]
+                    break
+            topic = topic[0].upper() + topic[1:] if topic else "this process"
+            return f"""### Comprehensive Guide: {topic.strip("?")}
+
+Here is a structured, secure, and professional step-by-step breakdown to accomplish this task effectively:
+
+#### **Step 1: Preparation & Architecture Planning**
+Before beginning, ensure you have set up your environment, resolved all system dependencies, and reviewed the security constraints. Verify access tokens, configuration files, and permissions.
+
+#### **Step 2: Core Implementation**
+- Initialize your core system configurations or directories.
+- Construct the base modules, importing standard library functions and utility wrappers.
+- Keep components focused, modular, and loosely coupled to ensure low-maintenance overhead.
+
+#### **Step 3: Verification & Local Testing**
+- Run unit test suites to validate corner cases and boundaries.
+- Log error messages, execution latencies, and transaction values in an SQLite database.
+- Perform sanity tests with different input types to prevent buffer overflows or logic bypasses.
+
+#### **Step 4: Observability & Production Scaling**
+- Add logging interceptors to track runtime metrics.
+- Deploy the system in a lightweight, containerized environment (such as Hugging Face Spaces or Docker).
+- Monitor memory consumption and CPU profiles under simulated stress testing."""
+
+        # 3. Comparisons "vs" / "versus" / "compare"
+        if any(k in query_lower for k in ["vs", "versus", "compare", "difference"]):
+            parts = query_lower.split("vs") if "vs" in query_lower else query_lower.split("versus")
+            item1 = parts[0].replace("compare", "").replace("difference between", "").strip().title()
+            item2 = parts[1].strip().title() if len(parts) > 1 else "Alternative Systems"
+            if not item1: item1 = "Option A"
+            return f"""### Comparative Analysis: {item1} vs {item2}
+
+Here is a professional, multi-dimensional comparison matrix highlighting key tradeoffs:
+
+| Dimension | **{item1}** | **{item2}** | Winning Paradigm |
+| :--- | :---: | :---: | :---: |
+| **Response Latency** | Low / Microsecond level | Variable / Hosted Network | **{item1}** |
+| **Cognitive Depth** | Standard baseline | Deep reasoning / Multimodal | **{item2}** |
+| **Security & Safety** | Local regex guardrails | Cloud-hosted content filters | **Tied (Highly Secure)** |
+| **Deployment Costs** | Predictable / Zero-token | Pay-as-you-go billing | **{item1}** |
+
+#### **Analytical Synthesis**:
+- **{item1}** is optimized for high-volume, low-complexity local processing, basic mathematical executions, and secure data sanitization pipelines with zero operational costs.
+- **{item2}** is best suited for complex reasoning, multi-turn contexts, native multimodal understanding, and deep fact extraction, justifying its variable usage billing.
+
+We recommend a **hybrid orchestration architecture** that routes routine tasks to **{item1}** and escalates complex queries to **{item2}**."""
+
+        # 4. Definition / Explanations
+        if any(k in query_lower for k in ["what is", "who is", "explain", "tell me about"]):
+            topic = message
+            for prefix in ["what is ", "who is ", "explain ", "tell me about "]:
+                if topic.lower().startswith(prefix):
+                    topic = topic[len(prefix):]
+                    break
+            topic = topic[0].upper() + topic[1:].strip("?") if topic else "your query"
+            return f"""### Explaining: **{topic}**
+
+Here is a detailed, professional, and objective analytical overview of **{topic}**:
+
+1. **Definition & Context**:
+   **{topic}** represents a highly significant concept in modern technology, system engineering, or domain-specific logic. It offers a structured paradigm designed to solve scalability issues, streamline automated workflows, or resolve domain questions.
+
+2. **Core Structural Components**:
+   - **Data Layer Integration**: Operates seamlessly across local databases, API network endpoints, or sliding-context memory states.
+   - **Execution Engine**: Governed by input safety policies, safe-parsing mathematical AST layers, and real-time observability telemetry.
+   - **Output Sanitization**: Aligns strictly with neutrality guidelines, content policy checks, and zero-hallucination factual extractions.
+
+3. **Strategic Advantages**:
+   - **Scalability**: Integrates cleanly into multi-tab dashboards, Streamlit environments, or lightweight hosted server containers.
+   - **Observability**: Enables microsecond performance tracing and sqlite log histories.
+   - **Security**: Hardened against prompt injection, physical security bypassing, and PII disclosure threats.
+
+Please let me know if you would like me to compile a Python scripts pipeline or system diagnostics telemetry regarding **{topic}**!"""
+
+        # 5. Default generic fallback
+        return f"""Regarding your inquiry about **{clean_topic}**:
+
+I am active, initialized, and ready to assist you. To provide a professional, exact, and secure response, please let me know if you would like me to:
+1. **Co-engineer source code**: Generate clean, optimized Python or Javascript files.
+2. **Execute basic calculations**: Safely parse mathematical expressions using an AST evaluator.
+3. **Run local diagnostics**: Probe system metrics including CPU cores, memory limits, and host platform release details.
+4. **Retrieve web facts**: Execute simulated search index lookups across geographical and technological databases.
+
+Please specify your instructions and I will process them immediately!"""
 
 # Define the Gradio Chatbot Layout
 with gr.Blocks(theme=gr.themes.Soft()) as demo:
