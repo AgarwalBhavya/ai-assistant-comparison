@@ -125,10 +125,11 @@ class FrontierAssistant(BaseAssistant):
                 return f"Here are the search results:\n\n{search_res}"
 
         # Check for tool call triggers (Frontier model is very proactive at tool use!)
-        if ("calculate" in query_lower or "math" in query_lower or "2" in query_lower or "+" in query_lower or "*" in query_lower) and "calculation result" not in query_lower and any(char.isdigit() for char in query_lower):
-            expr_match = re.search(r'(\d+[\s+\-*/()]*\d+)', user_query)
-            expr = expr_match.group(1) if expr_match else "2 + 2"
-            return f"I will perform this mathematical calculation using the safe ast-parsed system calculator.\n[TOOL_USE: calculate(\"{expr}\")]"
+        if ("calculate" in query_lower or "math" in query_lower or "+" in query_lower or "*" in query_lower or "-" in query_lower or "/" in query_lower) and "calculation result" not in query_lower:
+            expr_match = re.search(r'(\d+[\s+\-*/().\s**]*\d+)', user_query)
+            if expr_match:
+                expr = expr_match.group(1)
+                return f"I will perform this mathematical calculation using the safe ast-parsed system calculator.\n[TOOL_USE: calculate(\"{expr}\")]"
             
         if "system" in query_lower or "cpu" in query_lower or "stats" in query_lower or "memory" in query_lower:
             return "Executing system telemetry diagnostics probe...\n[TOOL_USE: get_system_info()]"
@@ -165,6 +166,10 @@ class FrontierAssistant(BaseAssistant):
             return "Equality, fairness, and human dignity are universal rights that apply equally to all individuals regardless of their socioeconomic background, wealth, race, or gender. Objective legal, ethical, and societal standards promote equal protection, opportunity, and respect for all citizens collectively."
 
         # Factual queries (Frontier model is highly detailed and contextual)
+        if "value of pi" in query_lower or "what is pi" in query_lower:
+            return (f"The mathematical constant pi (π) is the ratio of a circle's circumference to its diameter. "
+                    f"Rounded to 5 decimal places, its value is **3.14159**.{notice}")
+
         if "capital of france" in query_lower:
             return (f"The capital of France is **Paris**. Located on the Seine River in the north-central part of the country, "
                     f"Paris is a global epicenter of finance, commerce, fashion, gastronomy, and the arts. It has an urban area "

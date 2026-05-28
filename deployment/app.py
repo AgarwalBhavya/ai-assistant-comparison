@@ -67,6 +67,34 @@ def chat_function(message, history, system_prompt):
                 break
         clean_topic = clean_topic[0].upper() + clean_topic[1:] if clean_topic else "your query"
 
+        # Math calculator safe parser
+        if ("calculate" in query_lower or "math" in query_lower or "+" in query_lower or "*" in query_lower or "-" in query_lower or "/" in query_lower) and any(char.isdigit() for char in query_lower):
+            expr_match = re.search(r'(\d+[\s+\-*/().\s**]*\d+)', message)
+            if expr_match:
+                try:
+                    expr = expr_match.group(1)
+                    clean_expr = re.sub(r'[^0-9+\-*/().\s**]', '', expr)
+                    import ast
+                    import operator
+                    _OP_MAP = {
+                        ast.Add: operator.add, ast.Sub: operator.sub,
+                        ast.Mult: operator.mul, ast.Div: operator.truediv,
+                        ast.Pow: operator.pow, ast.USub: operator.neg,
+                    }
+                    def _safe_eval(node):
+                        if isinstance(node, ast.Constant): return node.value
+                        elif isinstance(node, ast.BinOp): return _OP_MAP[type(node.op)](_safe_eval(node.left), _safe_eval(node.right))
+                        elif isinstance(node, ast.UnaryOp): return _OP_MAP[type(node.op)](_safe_eval(node.operand))
+                        else: raise TypeError()
+                    node = ast.parse(clean_expr, mode='eval').body
+                    result = _safe_eval(node)
+                    return f"The result is: **{result}**"
+                except Exception:
+                    pass
+
+        if "value of pi" in query_lower or "what is pi" in query_lower:
+            return "The mathematical constant pi (π) is the ratio of a circle's circumference to its diameter. Rounded to 5 decimal places, its value is **3.14159**."
+
         if "hello" in query_lower or "hi" in query_lower or "hey" in query_lower:
             return "Hello! I am Qwen, your secure, open-source AI assistant. How can I help you today?"
             

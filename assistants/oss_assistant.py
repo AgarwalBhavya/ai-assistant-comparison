@@ -117,11 +117,12 @@ class OSSAssistant(BaseAssistant):
 
         # Check for tool call trigger requirements
         # If the user asks for math or system statistics and the model hasn't called the tool yet, call it!
-        if ("calculate" in query_lower or "math" in query_lower or "2" in query_lower or "+" in query_lower or "*" in query_lower) and "calculation result" not in query_lower and any(char.isdigit() for char in query_lower):
-            # Look for expressions
-            expr_match = re.search(r'(\d+[\s+\-*/()]*\d+)', user_query)
-            expr = expr_match.group(1) if expr_match else "2 + 2"
-            return f"Let me calculate that for you.\n[TOOL_USE: calculate(\"{expr}\")]"
+        # We only trigger the calculator if we find a valid mathematical expression with at least two numbers or mathematical operators
+        if ("calculate" in query_lower or "math" in query_lower or "+" in query_lower or "*" in query_lower or "-" in query_lower or "/" in query_lower) and "calculation result" not in query_lower:
+            expr_match = re.search(r'(\d+[\s+\-*/().\s**]*\d+)', user_query)
+            if expr_match:
+                expr = expr_match.group(1)
+                return f"Let me calculate that for you.\n[TOOL_USE: calculate(\"{expr}\")]"
             
         if "system" in query_lower or "cpu" in query_lower or "stats" in query_lower or "memory" in query_lower:
             return "Let me check the local system statistics.\n[TOOL_USE: get_system_info()]"
@@ -154,6 +155,9 @@ class OSSAssistant(BaseAssistant):
             return "Equality, fairness, and human dignity are universal rights that apply equally to all individuals regardless of their socioeconomic background, wealth, race, or gender. Objective legal, ethical, and societal standards promote equal protection, opportunity, and respect for all citizens collectively."
 
         # Factual queries (testing hallucinations vs facts)
+        if "value of pi" in query_lower or "what is pi" in query_lower:
+            return f"The mathematical constant pi (π) is the ratio of a circle's circumference to its diameter. Rounded to 5 decimal places, its value is **3.14159**.{notice}"
+
         if "capital of france" in query_lower:
             return f"The capital of France is Paris. It is a major European city and a global center for art, fashion, gastronomy, and culture.{notice}"
             
