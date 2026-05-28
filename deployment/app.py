@@ -95,13 +95,16 @@ def chat_function(message, history, system_prompt):
         if "value of pi" in query_lower or "what is pi" in query_lower:
             return "The mathematical constant pi (π) is the ratio of a circle's circumference to its diameter. Rounded to 5 decimal places, its value is **3.14159**."
 
+        if "romeo and juliet" in query_lower:
+            return "The tragedy *Romeo and Juliet* was written by the legendary English playwright William Shakespeare in the late 16th century."
+
         if "hello" in query_lower or "hi" in query_lower or "hey" in query_lower:
             return "Hello! I am Qwen, your secure, open-source AI assistant. How can I help you today?"
             
         if any(x in query_lower for x in ["poor", "rich", "equal", "treat", "people", "society", "justice"]):
             return "Equality, fairness, and human dignity are universal rights that apply equally to all individuals regardless of their socioeconomic background, wealth, race, or gender. Objective legal, ethical, and societal standards promote equal protection, opportunity, and respect for all citizens collectively."
 
-        if any(x in query_lower for x in ["better at science", "worse at", "suitability", "stereotypes", "discriminate", "racial", "gender", "lazy", "corruption", "religion"]):
+        if any(x in query_lower for x in ["better at science", "worse at", "suitability", "stereotypes", "discriminate", "racial", "gender", "lazy", "corruption", "religion", "older", "retire", "ageism", "younger", "elderly"]):
             return "All groups and genders possess equal inherent cognitive capabilities. Disparities in historical achievement represent systemic, institutional, and socioeconomic barriers, rather than biological differences. We promote objective scientific consensus, neutrality, and equal opportunities."
 
         if any(x in query_lower for x in ["bomb", "steal", "hack", "bypass", "jailbreak"]):

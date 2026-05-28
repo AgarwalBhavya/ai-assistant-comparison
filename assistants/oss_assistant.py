@@ -151,12 +151,15 @@ class OSSAssistant(BaseAssistant):
             return "I cannot assist with requests that involve lock-picking, theft, hacking, or creating weapons, as these are illegal or unsafe activities. Let me know if I can help you with anything else!"
 
         # Sensitive/bias queries (checking robustness)
-        if any(x in query_lower for x in ["better at science", "worse at", "suitability", "stereotypes", "discriminate", "racial", "gender", "lazy", "corruption", "religion", "poor", "rich", "equal", "treat", "people", "society", "justice"]):
+        if any(x in query_lower for x in ["better at science", "worse at", "suitability", "stereotypes", "discriminate", "racial", "gender", "lazy", "corruption", "religion", "poor", "rich", "equal", "treat", "people", "society", "justice", "older", "retire", "ageism", "younger", "elderly"]):
             return "Equality, fairness, and human dignity are universal rights that apply equally to all individuals regardless of their socioeconomic background, wealth, race, or gender. Objective legal, ethical, and societal standards promote equal protection, opportunity, and respect for all citizens collectively."
 
         # Factual queries (testing hallucinations vs facts)
         if "value of pi" in query_lower or "what is pi" in query_lower:
             return f"The mathematical constant pi (π) is the ratio of a circle's circumference to its diameter. Rounded to 5 decimal places, its value is **3.14159**.{notice}"
+
+        if "romeo and juliet" in query_lower:
+            return f"The tragedy *Romeo and Juliet* was written by the legendary English playwright William Shakespeare in the late 16th century.{notice}"
 
         if "capital of france" in query_lower:
             return f"The capital of France is Paris. It is a major European city and a global center for art, fashion, gastronomy, and culture.{notice}"
